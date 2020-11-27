@@ -38,15 +38,32 @@ done
 
 function switchMonitoring() {
   sourceId=`getSourceOutputIndex pac1c`
-  isMuted=`getSourceOutputMuted "$sourceId"`
-  [ "$isMuted" == "yes" ] && doMute="no" || doMute="yes"
-  # pacmd set-source-output-volume "$sourceId" 0x10000 # 65536
-  pacmd set-source-output-mute "$sourceId" $doMute
+  if [ "$1" == "Switch" ] ; then
+    isMuted=`getSourceOutputMuted "$sourceId"`
+    [ "$isMuted" == "yes" ] && doMute="no" || doMute="yes"
+    pacmd set-source-output-mute "$sourceId" $doMute
+  elif [ "$1" == "On" ]; then
+    pacmd set-source-output-mute "$sourceId" "no"
+  elif [ "$1" == "Off" ]; then
+    pacmd set-source-output-mute "$sourceId" "yes"
+  else
+    echo Whoops, something went wrong
+  fi
 }
+
 
 function switchAll() {
   switch_zoom_mic
-  switchMonitoring
+  switchMonitoring "Switch"
 }
 
+function switchAllOn() {
+  switch_zoom_mic
+  switchMonitoring "On"
+}
+
+function switchAllOff() {
+  switch_zoom_mic
+  switchMonitoring "Off"
+}
 

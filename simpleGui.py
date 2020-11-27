@@ -16,10 +16,6 @@ window.BackgroundColor=colorOn
 # window['-TEXT-'].update('My new text value')
 # window.Update()
 
-def pressed():
-  print("You pressed the key")
-
-
 
 # Create an event loop
 while True:
