@@ -1,13 +1,25 @@
 
 import PySimpleGUIQt as sg
 
-layout = [[sg.Text("Microphone is off")], [sg.Button("Quit")]]
+colorOff='#C5000B'
+colorOn='#AECF00'
+
+layout = [[sg.Text("ON/OFF", key='-TEXT-')], [sg.Button("Quit")]]
 
 # Create the window
-window = sg.Window("Mic", layout, background_color='white')
-window.BackgroundColor='black'
+window = sg.Window("Mic", layout, background_color=colorOff, finalize=True)
 
-# window.TKroot.configure(background=white)
+window.BackgroundColor=colorOn
+# window.Element('_TEXT_').Text='On Or OFF'
+#window['_TEXT_'].Update()
+# window.Element('ciao').Update('pippo')
+# window['-TEXT-'].update('My new text value')
+# window.Update()
+
+def pressed():
+  print("You pressed the key")
+
+
 
 # Create an event loop
 while True:
