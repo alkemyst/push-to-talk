@@ -1,0 +1,52 @@
+#!/bin/bash
+
+function getSourceOutputIndex() {
+  appName="$1"
+  command='/^ *index:/ {gsub(/^ *index: */, ""); indexx=$0;} /source-output-by-application-name:'$appName'/ {print indexx;}'
+  pacmd list-source-outputs | gawk "$command"
+}
+
+function getSourceOutputMuted() {
+  index="$1"
+  pacmd list-source-outputs | grep "index: $1" -A14 | gawk '/muted:/ {gsub(/.*muted: */,""); print}'
+}
+
+function switch_zoom_mic() {
+windowTitle="Zoom Meeting"
+for x in `xdotool search --class zoom`
+do
+  # All windows are named $x
+  if ( xprop -id $x WM_NAME | grep "$windowTitle" -q ); 
+  then
+    # In the one called Zoom meeting
+
+    # First we collect the currently focused one
+    currentFocus=`xdotool getwindowfocus -f`
+
+    # Then we give focus to Zoom and hit alt+a 
+    xdotool windowfocus --sync $x 
+    xdotool key --window $x alt+a
+
+    # And finally we go back to the previously focused window
+    xdotool windowfocus --sync $currentFocus
+
+    # And we are done
+    break
+  fi
+done
+}
+
+function switchMonitoring() {
+  sourceId=`getSourceOutputIndex pac1c`
+  isMuted=`getSourceOutputMuted "$sourceId"`
+  [ "$isMuted" == "yes" ] && doMute="no" || doMute="yes"
+  # pacmd set-source-output-volume "$sourceId" 0x10000 # 65536
+  pacmd set-source-output-mute "$sourceId" $doMute
+}
+
+function switchAll() {
+  switch_zoom_mic
+  switchMonitoring
+}
+
+

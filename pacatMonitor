@@ -1,0 +1,14 @@
+#!/bin/bash
+
+killall pacat
+myLatency=10
+
+pacat --client-name=pac1c \
+      --stream-name=pac1s \
+      -r --latency-msec=$myLatency \
+      -d alsa_input.usb-USB-MIC_USB-MIC_20200508V100-00.mono-fallback | \
+pacat --client-name=pac2c \
+      --stream-name=pac2s \
+      --latency-msec=$myLatency \
+      -d alsa_output.pci-0000_00_1f.3.analog-stereo &
+
