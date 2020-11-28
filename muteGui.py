@@ -29,18 +29,26 @@ def setColors(onOff):
         window['-TEXT-'].update(background_color=colorOff)
         window['-BUTTON-'].update(button_color=('black',colorOff))
         window.VisibilityChanged()
-
          
 
 # What to do when pause is pressed
 def on_press(key):
     global isPressed
-    if isPressed == 1: return
     try:
-        if key == keyboard.Key.pause:
+        if key == keyboard.Key.pause :
+            if isPressed == 1 : return
             setColors('on')
             isPressed=1
             unmuteAll()
+        elif key == keyboard.Key.scroll_lock :
+            if isPressed == 1 :
+                isPressed = 0
+                setColors('off')
+                muteAll()
+            else :
+                isPressed = 1
+                setColors('on')
+                unmuteAll()
     except AttributeError:
         print('something went wrong')
 
@@ -49,6 +57,7 @@ def on_release(key):
     global isPressed
     try:
         if key == keyboard.Key.pause:
+            if isPressed == 0 : return
             setColors('off')
             isPressed = 0
             muteAll()
