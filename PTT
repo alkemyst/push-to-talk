@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cd /home/alkemyst/Personale/prove/switch_microphones_volumes/
+tmux new-session -d -s "myPTT_session" "./muteGui.py"
+
