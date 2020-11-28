@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=PushToTalk PTT
+Exec=/home/alkemyst/bin/PTT
+Comment=
+Terminal=false
+Icon=cinnamon-panel-launcher
+Type=Application
+
